@@ -18,3 +18,16 @@ for numero in range(100):
         break
 
     print(numero, end=" ")
+
+print()
+
+
+# Usando o exemplo do Continue, pois pode pular uma situacao especifica dentro do laco
+
+for numero in range(10):
+
+    if numero == 7:
+        continue
+
+    print(numero, end=" ")
+
