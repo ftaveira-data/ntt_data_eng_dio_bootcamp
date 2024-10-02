@@ -1,61 +1,74 @@
 # Desafio do Sistema Bancário 
-conta_corrente = True
-conta_poupanca = False
-saldo = 5000
 
+def depositar(saldo, extrato, valor):
+    if valor > 0:
+        saldo += valor
+        extrato.append(f"Depósito: R$ {valor:.2f}")
+        print(f"Depósito de R$ {valor:.2f} realizado com sucesso!")
+    else:
+        print("Valor de depósito inválido.")
+    return saldo, extrato
 
-menu = "Banco DIO" 
+def sacar(saldo, extrato, numero_saques, valor, limite_saque, LIMITE_SAQUES_DIARIOS):
+    if numero_saques >= LIMITE_SAQUES_DIARIOS:
+        print("Limite de saques diários atingido.")
+    elif valor > limite_saque:
+        print("O valor do saque excede o limite permitido de R$ 500,00.")
+    elif saldo < valor:
+        print("Saldo insuficiente para realizar o saque.")
+    elif valor > 0:
+        saldo -= valor
+        extrato.append(f"Saque: R$ {valor:.2f}")
+        numero_saques += 1
+        print(f"Saque de R$ {valor:.2f} realizado com sucesso!")
+    else:
+        print("Valor de saque inválido.")
+    return saldo, extrato, numero_saques
 
-print(menu.rjust(30).center(50, "-"))
-print()
+def exibir_extrato(saldo, extrato):
+    if len(extrato) == 0:
+        print("Não foram realizadas movimentações.")
+    else:
+        print("\nExtrato:")
+        for operacao in extrato:
+            print(operacao)
+    print(f"Saldo atual: R$ {saldo:.2f}")
 
+def exibir_menu():
+    print("\n===== Banco DIO =====")
+    print("\n===== MENU =====")
+    print("1. Depósito")
+    print("2. Saque")
+    print("3. Extrato")
+    print("4. Sair")
 
-operacao = input("Escolha uma opção: ")
+# Loop principal do sistema bancário
+def main():
+    saldo = 0.0
+    limite_saque = 500.0
+    extrato = []
+    numero_saques = 0
+    LIMITE_SAQUES_DIARIOS = 3
 
-# saque = float(input"Valor do Saque: ")
+    while True:
+        exibir_menu()
+        opcao = input("Escolha uma opção: ")
 
-# print()
-# print()
-# print(menu.center(14))
-# print(menu.center(14, "#"))
-# print(menu.center(8, "#"))
-# print(menu.center(20, "#"))
+        if opcao == "1":
+            valor = float(input("Digite o valor para depósito: "))
+            saldo, extrato = depositar(saldo, extrato, valor)
+        elif opcao == "2":
+            valor = float(input("Digite o valor para saque: "))
+            saldo, extrato, numero_saques = sacar(saldo, extrato, numero_saques, valor, limite_saque, LIMITE_SAQUES_DIARIOS)
+        elif opcao == "3":
+            exibir_extrato(saldo, extrato)
+        elif opcao == "4":
+            print("Saindo do sistema. Obrigado por usar o Banco DIO!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
 
-# #Exemplo com *args=valores vem em tupla e **kwargs=valores vem em dicionario
+# Iniciar o programa
+if __name__ == "__main__":
+    main()
 
-# def exibir_poema(data_extenso, *args, **kwargs):
-#     texto = "\n".join(args)
-#     meta_dados = "\n".join([f"{chave.title()}: {valor}" for chave, valor in kwargs.items()])
-#     mensagem = f"{data_extenso}\n\n{texto}\n\n{meta_dados}"
-#     print(mensagem)
-
-
-# exibir_poema("Domingo 30 de Setembro de 2024", "Zen of Python", "Beautiful is better than ugly.", autor="Tim Peters", ano=1990)
-
-
-# nome = input("informe seu nome: ")
-# idade = input("Informe sua idade: ")
-
-# print(f"Seu nome é {nome}")
-# print(nome, idade, end="...\n")
-# print(nome, idade, sep="#")
-# print(nome, idade)
-
-
-# conta_normal = True
-# conta_universitaria = False
-
-# saldo = 2000
-# saque = float(input("Informe o valor do saque: "))
-# cheque_especial = 450
-
-# if conta_normal:
-#     if saldo >= saque:
-#         print("Saque realizado com sucesso")
-#     elif saque <= (saldo + cheque_especial):
-#         print("Saque realizado com o uso do cheque especial!")
-#     else: 
-#         print("Saque não permitido, saldo insuficiente")
-# elif conta_universitaria:
-#     if saldo >= saque:
-#         print("Saque realizado com sucesso")
